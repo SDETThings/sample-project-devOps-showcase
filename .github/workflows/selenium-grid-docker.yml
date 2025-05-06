@@ -34,6 +34,11 @@ jobs:
         run: |
           mvn clean package -DskipTests
 
+      # Step 4: check the package directory
+      - name: Check the package directory
+        run: |
+          ls ./target/docker-resources
+
       # Step 4: Build the Test Framework Docker Image
       - name: Build Test Framework Docker Image
         run: |
