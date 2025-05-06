@@ -4,7 +4,7 @@ FROM bellsoft/liberica-openjdk-alpine:latest
 RUN apk add curl jq
 
 #set work directory inside container
-WORKDIR /03-automation-framework/selenium-docker
+WORKDIR /home/selenium-docker
 
 #Add the required files
 ADD /target/docker-resources    ./
