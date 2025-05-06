@@ -29,6 +29,16 @@ jobs:
           sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
 
+      # Step 3: Package the project
+      - name: Package the project
+        run: |
+          mvn clean package -DskipTests
+
+      # Step 4: Build the Test Framework Docker Image
+      - name: Build Test Framework Docker Image
+        run: |
+          docker build -t my-test-framework -f Dockerfile ./target/docker-resources
+
       - name: Start Selenium Hub
         run: |
           docker-compose -f ./src/test/resources/Docker-resources/selenium-grid-hub-and-nodes.yaml up -d

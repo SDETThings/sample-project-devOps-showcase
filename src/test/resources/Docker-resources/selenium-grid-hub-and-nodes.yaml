@@ -8,6 +8,8 @@ services:
   chrome:
     image: selenium/node-chrome:latest
     shm_size: 2g
+    volumes:
+      - ./output/test-results:/target/test-output
     depends_on:
       - hub
       #deploy:
@@ -20,6 +22,9 @@ services:
       - SE_NODE_MAX_SESSIONS=4 # By default, the number of sessions is 1.
   firefox:
     image: selenium/node-firefox:latest
+    shm_size: 2g
+    volumes:
+      - ./output/test-results:/target/test-output
     depends_on:
       - hub
     environment:

@@ -7,7 +7,7 @@ RUN apk add curl jq
 WORKDIR /home/selenium-docker
 
 #Add the required files
-ADD /target/docker-resources    ./
+#ADD /target/docker-resources    ./
 ADD runner.sh                   runner.sh
 
 #Run the tests
