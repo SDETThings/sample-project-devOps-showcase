@@ -1,15 +1,20 @@
 FROM bellsoft/liberica-openjdk-alpine:latest
 
-#Install softwares
-RUN apk add curl jq
+# Install required software
+RUN apk add --no-cache curl jq
 
-#set work directory inside container
+# Set working directory inside container
 WORKDIR /project-package
 
-#Add the required files
-ADD ./target/docker-resources    ./
-ADD ./runner.sh                   runner.sh
+# Copy the packaged test framework files
+COPY target/docker-resources/ ./
 
-#Run the tests
-ENTRYPOINT sh runner.sh
+# Copy runner script
+COPY ./target/docker-resources ./
+COPY runner.sh runner.sh
 
+# Make runner script executable
+RUN chmod +x runner.sh
+
+# Set the entry point
+ENTRYPOINT ["sh", "runner.sh"]
