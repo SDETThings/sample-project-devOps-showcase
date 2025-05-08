@@ -44,7 +44,7 @@ services:
       - firefox
     environment:
       - DISPLAY_CONTAINER_NAME=chrome
-      - FILE_NAME=recording
+      - FILE_NAME=flight-reservation
     networks:
       - grid
 
