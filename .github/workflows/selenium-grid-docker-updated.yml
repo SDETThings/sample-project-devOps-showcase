@@ -54,7 +54,7 @@ jobs:
           docker run --rm \
             --name runner \
             --network grid \
-            -e HUB_HOST=selenium-hub \
+            -e HUB_HOST=hub \
             -e BROWSER=chrome \
             -e THREAD_COUNT=4 \
             -e TEST_SUITE=flight-reservation.xml \
