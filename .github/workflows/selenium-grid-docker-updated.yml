@@ -36,6 +36,10 @@ jobs:
       - name: Package the project
         run: |
           mvn clean package -DskipTests
+      # 🛠️ Step: Compile your project and copy jars to a libs folder
+      - name: Check the packaged jars
+        run: |
+          ls ./project-package/docker-resources
 
       # 🚦 Step: Start Selenium Grid using Docker Compose (Hub + Chrome + Firefox)
       - name: Start Selenium Grid
@@ -63,7 +67,7 @@ jobs:
             -e HUB_HOST=hub \
             -e BROWSER=chrome \
             -e THREAD_COUNT=4 \
-            -e TEST_SUITE=test-suites/flight-reservation.xml \
+            -e TEST_SUITE=./project-package/test-suites/flight-reservation.xml \
             -v ${{ github.workspace }}/testCaseResults:/app/testCaseResults \
             my-java-test-runner
 
