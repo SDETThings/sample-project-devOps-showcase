@@ -18,15 +18,15 @@ public class Config {
         // check for any override
         System.out.println("input properties : "+System.getProperties().stringPropertyNames() );
 
-       /* for(String key: properties.stringPropertyNames()){
+        for(String key: properties.stringPropertyNames()){
             System.out.println("key: "+key);
             if(System.getProperties().contains(key)){
                 System.out.println("before setting the property for key : "+key + properties.getProperty(key));
                 properties.setProperty(key,System.getProperty(key));
                 System.out.println("after setting the property for key : "+key + properties.getProperty(key));
             }
-        }*/
-        for (String key : properties.stringPropertyNames()) {
+        }
+       /* for (String key : properties.stringPropertyNames()) {
             String envValue = System.getenv(key);           // Look in environment variables
             String sysValue = System.getProperty(key);      // Look in JVM args / -D properties
 
@@ -37,7 +37,7 @@ public class Config {
                 properties.setProperty(key, envValue);
                 System.out.println("Overriding from env variable: " + key + " = " + envValue);
             }
-        }
+        }*/
         //print
         log.info("Test properties");
         log.info("------------------------------");

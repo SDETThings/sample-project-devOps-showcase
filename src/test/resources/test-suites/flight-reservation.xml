@@ -11,14 +11,14 @@
     </test>
     <test name="passengers-count-2">
         <parameter name="testDataPath" value="test-data/flight-reservation/passenger-2.json" />
-        <parameter name="browser" value="Firefox" />
+        <parameter name="browser" value="Chrome" />
         <classes>
             <class name="com.vinsguru.tests.flightreservation.FlightReservationTest"/>
         </classes>
     </test>
     <test name="passengers-count-3">
         <parameter name="testDataPath" value="test-data/flight-reservation/passenger-3.json" />        <parameter name="browser" value="Firefox" />
-        <parameter name="browser" value="Firefox" />
+        <parameter name="browser" value="Chrome" />
         <classes>
             <class name="com.vinsguru.tests.flightreservation.FlightReservationTest"/>
         </classes>
