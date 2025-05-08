@@ -35,6 +35,18 @@ services:
       - SE_NODE_MAX_SESSIONS=4 # By default, the number of sessions is 1.
     networks:
       - grid
+  video:
+    image: selenium/video:ffmpeg-4.3.1-20211123
+    volumes:
+      - ./testCaseResults/videos:/videos
+    depends_on:
+      - chrome
+      - firefox
+    environment:
+      - DISPLAY_CONTAINER_NAME=chrome
+      - FILE_NAME=recording
+    networks:
+      - grid
 
 networks:
   grid:
