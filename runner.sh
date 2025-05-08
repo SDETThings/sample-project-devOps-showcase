@@ -45,4 +45,4 @@ java -cp 'libs/*' \
      -Dbrowser="${BROWSER:-chrome}" \
      org.testng.TestNG \
      -threadcount "${THREAD_COUNT:-1}" \
-     project-package/test-suites/"${TEST_SUITE}"
+     test-suites/"${TEST_SUITE}"
