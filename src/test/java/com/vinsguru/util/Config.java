@@ -16,11 +16,11 @@ public class Config {
         // load default properties
         properties = loadProperties();
         // check for any override
-        System.out.println("input properties : "+System.getProperties());
+        System.out.println("input properties : "+System.getProperties().stringPropertyNames() );
 
         for(String key: properties.stringPropertyNames()){
+            System.out.println("key: "+key);
             if(System.getProperties().contains(key)){
-                System.out.println("key: "+key);
                 System.out.println("before setting the property for key : "+key + properties.getProperty(key));
                 properties.setProperty(key,System.getProperty(key));
                 System.out.println("after setting the property for key : "+key + properties.getProperty(key));

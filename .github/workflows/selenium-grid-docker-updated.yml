@@ -52,8 +52,8 @@ jobs:
           docker network inspect grid >/dev/null 2>&1 || docker network create grid
 
       # 🧪 Step: Run the test container (mapped to the Selenium Grid network)
-      #           Pass environment variables to runner.sh
-      #           Mounts `testCaseResults` to collect results from inside the container
+      #          Pass environment variables to runner.sh
+      #          Mounts `testCaseResults` to collect results from inside the container
       - name: Run Tests in Container
         run: |
           mkdir -p testCaseResults
@@ -61,7 +61,7 @@ jobs:
             --name runner \
             --network grid \
             -e HUB_HOST=hub \
-            -e BROWSER=chrome \
+            -e BROWSER=Firefox \
             -e THREAD_COUNT=4 \
             -e TEST_SUITE=flight-reservation.xml \
             -v ${{ github.workspace }}/testCaseResults:/app/testCaseResults \

@@ -41,7 +41,7 @@ public abstract class AbstractTest {
             this.driver = getLocalDriver();
         }
     }
-   /* private WebDriver getRemoteDriver(String browser) throws MalformedURLException {
+    /* private WebDriver getRemoteDriver(String browser) throws MalformedURLException {
         Capabilities capabilities;
         if(System.getProperty("browser").equalsIgnoreCase("Chrome")){
             capabilities = new ChromeOptions();
@@ -54,7 +54,6 @@ public abstract class AbstractTest {
         WebDriverManager.chromedriver().setup();
         return new ChromeDriver();
     }*/
-
     /*private WebDriver getRemoteDriver(String browser) throws MalformedURLException {
         Capabilities capabilities;
         if(browser.equalsIgnoreCase("Chrome")){
