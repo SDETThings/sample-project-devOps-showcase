@@ -16,9 +16,10 @@ public class Config {
         // load default properties
         properties = loadProperties();
         // check for any override
+        System.out.println("input properties : "+System.getProperties());
+
         for(String key: properties.stringPropertyNames()){
             if(System.getProperties().contains(key)){
-                System.out.println("input properties : "+System.getProperties());
                 System.out.println("key: "+key);
                 System.out.println("before setting the property for key : "+key + properties.getProperty(key));
                 properties.setProperty(key,System.getProperty(key));
