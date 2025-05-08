@@ -2,8 +2,6 @@ name: Run Tests on Dockerized Selenium Grid - updated
 
 on:
   push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
@@ -42,6 +40,11 @@ jobs:
       - name: Build Java-only Test Runner Image
         run: |
           docker build -t my-java-test-runner .
+
+      # 🧪 Step 7: Ensure Docker network (grid) exists
+      - name: Ensure Docker network exists
+        run: |
+          docker network inspect grid >/dev/null 2>&1 || docker network create grid
 
       # 🧪 Step 7: Run the test container (mapped to the Selenium Grid network)
       #           Pass environment variables to runner.sh
