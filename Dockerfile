@@ -10,7 +10,7 @@ COPY target/docker-resources .
 COPY ./runner.sh .
 
 # Make runner.sh executable
-#RUN chmod +x ./project-package/runner.sh
+RUN chmod +x ./runner.sh
 
 # Default command (can be overridden)
-#ENTRYPOINT ["./project-package/runner.sh"]
+ENTRYPOINT ["./runner.sh"]
