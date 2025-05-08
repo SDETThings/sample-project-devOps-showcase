@@ -34,8 +34,10 @@ public abstract class AbstractTest {
     public void setDriver(String browser) throws MalformedURLException {
         if(Boolean.parseBoolean(Config.get(Constants.GRID_ENABLED)))
         {
+            System.out.println("about to initialize remote webdriver");
             this.driver = getRemoteDriver(browser);
         }else{
+            System.out.println("about to initialize local webdriver");
             this.driver = getLocalDriver();
         }
     }
@@ -64,12 +66,17 @@ public abstract class AbstractTest {
     }*/
     private WebDriver getRemoteDriver(String browser) throws MalformedURLException {
         Capabilities capabilities = new ChromeOptions();
-        if(Constants.FIREFOX.equalsIgnoreCase(Config.get(Constants.BROWSER))){
+        if(Constants.FIREFOX.equalsIgnoreCase(Config.get(Constants.BROWSER))) {
+            System.out.println("about to initialize FIREFOX BROWSER");
             capabilities = new FirefoxOptions();
+        }else{
+            System.out.println("Initialized Chrome BROWSER");
         }
         String urlFormat = Config.get(Constants.GRID_URL_FORMAT);
         String hubHost = Config.get(Constants.GRID_HUB_HOST);
         String url = String.format(urlFormat,hubHost);
+        System.out.println("url"+url);
+
 
         return new RemoteWebDriver(new URL(url),capabilities);
     }
