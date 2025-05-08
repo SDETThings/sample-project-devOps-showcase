@@ -34,6 +34,10 @@ done
 # At this point, selenium grid should be up!
 echo "Selenium Grid is up and running. Running the test...."
 
+# Debug: show the available test suite files
+cd project-package/test-suites
+ls -l project-package/test-suites
+
 # Start the java command
 java -cp 'libs/*' \
      -Dselenium.grid.enabled=true \
