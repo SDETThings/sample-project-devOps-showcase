@@ -41,7 +41,7 @@ jobs:
       # 🏗️ Step 6: Build a lightweight test runner Docker image with Java only, Includes runner.sh, libs/, and test suite XMLs
       - name: Build Java-only Test Runner Image
         run: |
-          docker build -f Dockerfile.test-runner -t my-java-test-runner .
+          docker build -t my-java-test-runner .
 
       # 🧪 Step 7: Run the test container (mapped to the Selenium Grid network)
       #           Pass environment variables to runner.sh
