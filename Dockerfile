@@ -13,4 +13,4 @@ COPY ./runner.sh .
 RUN chmod +x ./runner.sh
 
 # Default command (can be overridden)
-ENTRYPOINT ["./runner.sh"]
+ENTRYPOINT ./runner.sh
