@@ -35,8 +35,7 @@ done
 echo "Selenium Grid is up and running. Running the test...."
 
 # Debug: show the available test suite files
-cd project-package/test-suites
-ls -l project-package/test-suites
+ls -l test-suites/
 
 # Start the java command
 java -cp 'libs/*' \
