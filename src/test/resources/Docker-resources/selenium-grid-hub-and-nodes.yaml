@@ -35,18 +35,45 @@ services:
       - SE_NODE_MAX_SESSIONS=4 # By default, the number of sessions is 1.
     networks:
       - grid
-  video:
-    image: selenium/video:ffmpeg-4.3.1-20211123
+  chrome_video:
+    image: selenium/video:ffmpeg-7.1-20250505
     volumes:
-      - ./testCaseResults/videos:/videos
+     - /testCaseResults/videos:/videos
     depends_on:
-      - chrome
-      - firefox
+     - chrome
     environment:
       - DISPLAY_CONTAINER_NAME=chrome
-      - FILE_NAME=flight-reservation
+      - SE_NODE_GRID_URL=http://selenium-hub:4444
+      #      - FILE_NAME=chrome_video.mp4
+      - SE_VIDEO_FILE_NAME=auto
     networks:
       - grid
+  firefox_video:
+      image: selenium/video:ffmpeg-7.1-20250505
+      volumes:
+        - /testCaseResults/videos:/videos
+      depends_on:
+        - firefox
+      environment:
+        - DISPLAY_CONTAINER_NAME=firefox
+        - SE_NODE_GRID_URL=http://selenium-hub:4444
+        #      - FILE_NAME=firefox_video.mp4
+        - SE_VIDEO_FILE_NAME=auto
+      networks:
+        - grid
+    # File browser to manage the videos from local volume
+  file_browser:
+      image: filebrowser/filebrowser:latest
+      container_name: file_browser
+      restart: always
+      ports:
+        - "8081:80"
+      volumes:
+        - /testCaseResults/videos:/srv
+      environment:
+        - FB_NOAUTH=true
+      networks:
+        - grid
 
 networks:
   grid:
