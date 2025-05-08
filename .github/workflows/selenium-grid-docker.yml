@@ -1,7 +1,6 @@
 name: Run Tests on Dockerized Selenium Grid
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:
