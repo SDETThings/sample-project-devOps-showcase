@@ -1,15 +1,15 @@
-FROM bellsoft/liberica-openjdk-alpine:latest
+# Dockerfile3.test-runner
 
-#Install softwares
-RUN apk add curl jq
+FROM eclipse-temurin:21-jdk
 
-#set work directory inside container
-WORKDIR /home/selenium-docker
+WORKDIR /app
 
-#Add the required files
-ADD /target/docker-resources    ./
-ADD runner.sh                   runner.sh
+# Copy all jars and scripts into the image
+COPY target/docker-resources ./project-package
+COPY runner.sh ./project-package
 
-#Run the tests
-ENTRYPOINT sh runner.sh
+# Make runner.sh executable
+RUN chmod +x ./project-package/runner.sh
 
+# Default command (can be overridden)
+ENTRYPOINT ["./project-package/runner.sh"]
