@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class Config {
     private  static  final Logger log = LoggerFactory.getLogger(Config.class);
-    private static final String DEAFULT_PROPERTIES = "./src/test/resources/test-data/config/default.properties";
+    private static final String DEAFULT_PROPERTIES = "./test-data/config/default.properties";
     private static Properties properties;
 
     public static void initialize(){
