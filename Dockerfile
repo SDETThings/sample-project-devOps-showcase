@@ -1,20 +1,15 @@
-FROM bellsoft/liberica-openjdk-alpine:latest
+# Dockerfile3.test-runner
 
-# Install required software
-RUN apk add --no-cache curl jq
+FROM eclipse-temurin:21-jdk
 
-# Set working directory inside container
-WORKDIR /project-package
+WORKDIR /app
 
-# Copy the packaged test framework files
-COPY target/docker-resources/ ./
+# Copy all jars and scripts into the image
+COPY target/docker-resources ./project-package
+COPY runner.sh ./project-package
 
-# Copy runner script
-COPY ./target/docker-resources ./
-COPY runner.sh runner.sh
+# Make runner.sh executable
+RUN chmod +x ./project-package/runner.sh
 
-# Make runner script executable
-RUN chmod +x runner.sh
-
-# Set the entry point
-ENTRYPOINT ["sh", "runner.sh"]
+# Default command (can be overridden)
+ENTRYPOINT ["./project-package/runner.sh"]
