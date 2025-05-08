@@ -7,7 +7,7 @@ WORKDIR /app
 
 # Copy all jars and scripts into the image
 COPY target/docker-resources ./project-package
-COPY runner.sh ./project-package
+COPY ./runner.sh ./project-package
 
 # Make runner.sh executable
 RUN chmod +x ./project-package/runner.sh

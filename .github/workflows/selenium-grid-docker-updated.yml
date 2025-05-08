@@ -27,6 +27,11 @@ jobs:
           sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
 
+      # Step: Ensure Docker network (grid) exists BEFORE starting Selenium Grid
+      - name: Ensure Docker network exists
+        run: |
+         docker network inspect grid >/dev/null 2>&1 || docker network create grid
+
       # 🛠️ Step: Compile your project and copy jars to a libs folder
       - name: Package the project
         run: |
