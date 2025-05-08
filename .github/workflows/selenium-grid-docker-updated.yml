@@ -63,7 +63,7 @@ jobs:
             -e HUB_HOST=hub \
             -e BROWSER=chrome \
             -e THREAD_COUNT=4 \
-            -e TEST_SUITE=flight-reservation.xml \
+            -e TEST_SUITE=test-suites/flight-reservation.xml \
             -v ${{ github.workspace }}/testCaseResults:/app/testCaseResults \
             my-java-test-runner
 
