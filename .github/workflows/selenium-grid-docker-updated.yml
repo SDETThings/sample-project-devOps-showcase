@@ -36,10 +36,6 @@ jobs:
       - name: Package the project
         run: |
           mvn clean package -DskipTests
-      # 🛠️ Step: Compile your project and copy jars to a libs folder
-      - name: Check the packaged jars
-        run: |
-          ls ./project-package/docker-resources
 
       # 🚦 Step: Start Selenium Grid using Docker Compose (Hub + Chrome + Firefox)
       - name: Start Selenium Grid
