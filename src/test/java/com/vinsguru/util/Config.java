@@ -18,6 +18,7 @@ public class Config {
         // check for any override
         for(String key: properties.stringPropertyNames()){
             if(System.getProperties().contains(key)){
+                System.out.println("input properties : "+System.getProperties());
                 System.out.println("key: "+key);
                 System.out.println("before setting the property for key : "+key + properties.getProperty(key));
                 properties.setProperty(key,System.getProperty(key));
