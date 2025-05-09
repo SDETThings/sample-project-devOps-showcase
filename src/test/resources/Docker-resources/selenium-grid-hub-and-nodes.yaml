@@ -1,30 +1,32 @@
 services:
+
   hub:
     image: selenium/hub:latest
+    container_name: hub
     ports:
-      - 4444:4444
-    #- 4442:4444
-    #- 4443:4444
+      - "4444:4444"
+      - "4442:4442"
+      - "4443:4443"
+    networks:
+      - grid
   chrome:
     image: selenium/node-chrome:latest
     shm_size: 2g
-    volumes:
-      - ./output/test-results:/target/test-output
     depends_on:
       - hub
       #deploy:
-      #replicas: 4 # By default, the number of replicas is 1. 
+      #replicas: 4 # By default, the number of replicas is 1.
     environment:
       - SE_EVENT_BUS_HOST=hub
       - SE_EVENT_BUS_PUBLISH_PORT=4442
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
       - SE_NODE_OVERRIDE_MAX_SESSIONS=true
-      - SE_NODE_MAX_SESSIONS=4 # By default, the number of sessions is 1.
+      - SE_NODE_MAX_SESSIONS=1 # By default, the number of sessions is 1.
+    networks:
+      - grid
   firefox:
     image: selenium/node-firefox:latest
     shm_size: 2g
-    volumes:
-      - ./output/test-results:/target/test-output
     depends_on:
       - hub
     environment:
@@ -32,4 +34,48 @@ services:
       - SE_EVENT_BUS_PUBLISH_PORT=4442
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
       - SE_NODE_OVERRIDE_MAX_SESSIONS=true
-      - SE_NODE_MAX_SESSIONS=4 # By default, the number of sessions is 1.
+      - SE_NODE_MAX_SESSIONS=1 # By default, the number of sessions is 1.
+    networks:
+      - grid
+  chrome_video:
+    image: selenium/video:ffmpeg-7.1-20250505
+    volumes:
+     - ./testCaseResults/videos:/videos
+    depends_on:
+     - chrome
+    environment:
+      - DISPLAY_CONTAINER_NAME=chrome
+      - SE_NODE_GRID_URL=http://selenium-hub:4444
+      #      - FILE_NAME=chrome_video.mp4
+      - SE_VIDEO_FILE_NAME=auto
+    networks:
+      - grid
+  firefox_video:
+      image: selenium/video:ffmpeg-7.1-20250505
+      volumes:
+        - ./testCaseResults/videos:/videos
+      depends_on:
+        - firefox
+      environment:
+        - DISPLAY_CONTAINER_NAME=firefox
+        - SE_NODE_GRID_URL=http://selenium-hub:4444
+        #      - FILE_NAME=firefox_video.mp4
+        - SE_VIDEO_FILE_NAME=auto
+      networks:
+        - grid
+    # File browser to manage the videos from local volume
+  file_browser:
+      image: filebrowser/filebrowser:latest
+      container_name: file_browser
+      restart: always
+      ports:
+        - "8081:80"
+      volumes:
+        - /testCaseResults/videos:/srv
+      environment:
+        - FB_NOAUTH=true
+      networks:
+        - grid
+networks:
+  grid:
+    external: true

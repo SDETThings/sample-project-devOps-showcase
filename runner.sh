@@ -12,7 +12,7 @@
 echo "-------------------------------------------"
 echo "HUB_HOST      : ${HUB_HOST:-hub}"
 echo "BROWSER       : ${BROWSER:-chrome}"
-echo "THREAD_COUNT  : ${THREAD_COUNT:-1}"
+echo "THREAD_COUNT  : ${THREAD_COUNT:-2}"
 echo "TEST_SUITE    : ${TEST_SUITE}"
 echo "-------------------------------------------"
 
@@ -23,9 +23,9 @@ while [ "$( curl -s http://${HUB_HOST:-hub}:4444/status | jq -r .value.ready )" 
 do
   count=$((count+1))
   echo "Attempt: ${count}"
-  if [ "$count" -ge 30 ]
+  if [ "$count" -ge 60 ]
   then
-      echo "**** HUB IS NOT READY WITHIN 30 SECONDS ****"
+      echo "**** HUB IS NOT READY WITHIN 60 SECONDS ****"
       exit 1
   fi
   sleep 1
@@ -34,11 +34,14 @@ done
 # At this point, selenium grid should be up!
 echo "Selenium Grid is up and running. Running the test...."
 
+# Debug: show the available test suite files
+ls -l test-suites/
+
 # Start the java command
 java -cp 'libs/*' \
      -Dselenium.grid.enabled=true \
      -Dselenium.grid.hubHost="${HUB_HOST:-hub}" \
-     -Dbrowser="${BROWSER:-chrome}" \
+     -DBrowser="${BROWSER:-chrome}" \
      org.testng.TestNG \
      -threadcount "${THREAD_COUNT:-1}" \
      test-suites/"${TEST_SUITE}"

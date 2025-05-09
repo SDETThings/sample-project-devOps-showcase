@@ -9,16 +9,33 @@ import java.util.Properties;
 
 public class Config {
     private  static  final Logger log = LoggerFactory.getLogger(Config.class);
-    private static final String DEAFULT_PROPERTIES = "./src/test/resources/test-data/config/default.properties";
+    private static final String DEAFULT_PROPERTIES = "./test-data/config/default.properties";
     private static Properties properties;
 
     public static void initialize(){
         // load default properties
         properties = loadProperties();
         // check for any override
-        for(String key: properties.stringPropertyNames()){
+        System.out.println("input properties : "+System.getProperties().stringPropertyNames() );
+
+        /*for(String key: properties.stringPropertyNames()){
+            System.out.println("key: "+key);
             if(System.getProperties().contains(key)){
+                System.out.println("before setting the property for key : "+key + properties.getProperty(key));
                 properties.setProperty(key,System.getProperty(key));
+                System.out.println("after setting the property for key : "+key + properties.getProperty(key));
+            }
+        }*/
+        for (String key : properties.stringPropertyNames()) {
+            String envValue = System.getenv(key);           // Look in environment variables
+            String sysValue = System.getProperty(key);      // Look in JVM args / -D properties
+
+            if (sysValue != null) {
+                properties.setProperty(key, sysValue);
+                System.out.println("Overriding from system property: " + key + " = " + sysValue);
+            } else if (envValue != null) {
+                properties.setProperty(key, envValue);
+                System.out.println("Overriding from env variable: " + key + " = " + envValue);
             }
         }
         //print

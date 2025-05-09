@@ -7,6 +7,7 @@ jobs:
   selenium-grid-tests:
     runs-on: ubuntu-latest
 
+
     steps:
       # 📦 Step: Checkout the project source code
       - name: Checkout code
@@ -25,6 +26,11 @@ jobs:
         run: |
           sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
+
+      # Step: Ensure Docker network (grid) exists BEFORE starting Selenium Grid
+      - name: Ensure Docker network exists
+        run: |
+         docker network inspect grid >/dev/null 2>&1 || docker network create grid
 
       # 🛠️ Step: Compile your project and copy jars to a libs folder
       - name: Package the project
@@ -46,20 +52,26 @@ jobs:
           docker network inspect grid >/dev/null 2>&1 || docker network create grid
 
       # 🧪 Step: Run the test container (mapped to the Selenium Grid network)
-      #           Pass environment variables to runner.sh
-      #           Mounts `testCaseResults` to collect results from inside the container
+      #          Pass environment variables to runner.sh
+      #          Mounts `testCaseResults` to collect results from inside the container
       - name: Run Tests in Container
         run: |
           mkdir -p testCaseResults
           docker run --rm \
             --name runner \
             --network grid \
-            -e HUB_HOST=selenium-hub \
+            -e HUB_HOST=hub \
             -e BROWSER=chrome \
             -e THREAD_COUNT=4 \
             -e TEST_SUITE=flight-reservation.xml \
             -v ${{ github.workspace }}/testCaseResults:/app/testCaseResults \
             my-java-test-runner
+
+      # 📤 Step: show video directory and testCaseResults directory
+      - name: Show video directory contents
+        run: |
+          find ./testCaseResults || echo "Directory not found"
+          ls -lh ./testCaseResults/videos || echo "No videos found"        
 
       # 📤 Step: Upload test results folder to GitHub as an artifact
       - name: Upload testCaseResults
