@@ -1,0 +1,88 @@
+services:
+
+  selenoid:
+    image: aerokube/selenoid:latest-release
+    container_name: selenoid
+    ports:
+      - "4444:4444"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./config:/etc/selenoid"
+      - "./testCaseResults/videos:/opt/selenoid/video"
+    command: [
+      "-limit", "4",
+      "-video-output-dir", "/opt/selenoid/video",
+      "-enable-file-upload"
+    ]
+    networks:
+      - grid
+  chrome:
+    image: selenium/node-chrome:latest
+    shm_size: 2g
+    depends_on:
+      - hub
+      #deploy:
+      #replicas: 4 # By default, the number of replicas is 1.
+    environment:
+      - SE_EVENT_BUS_HOST=hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+      - SE_NODE_MAX_SESSIONS=1 # By default, the number of sessions is 1.
+    networks:
+      - grid
+  firefox:
+    image: selenium/node-firefox:latest
+    shm_size: 2g
+    depends_on:
+      - hub
+    environment:
+      - SE_EVENT_BUS_HOST=hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+      - SE_NODE_MAX_SESSIONS=1 # By default, the number of sessions is 1.
+    networks:
+      - grid
+  chrome_video:
+    image: selenium/video:ffmpeg-7.1-20250505
+    volumes:
+     - ./testCaseResults/videos:/videos
+    depends_on:
+     - chrome
+    environment:
+      - DISPLAY_CONTAINER_NAME=chrome
+      - SE_NODE_GRID_URL=http://selenium-hub:4444
+      #      - FILE_NAME=chrome_video.mp4
+      - SE_VIDEO_FILE_NAME=auto
+    networks:
+      - grid
+  firefox_video:
+      image: selenium/video:ffmpeg-7.1-20250505
+      volumes:
+        - ./testCaseResults/videos:/videos
+      depends_on:
+        - firefox
+      environment:
+        - DISPLAY_CONTAINER_NAME=firefox
+        - SE_NODE_GRID_URL=http://selenium-hub:4444
+        #      - FILE_NAME=firefox_video.mp4
+        - SE_VIDEO_FILE_NAME=auto
+      networks:
+        - grid
+    # File browser to manage the videos from local volume
+  file_browser:
+      image: filebrowser/filebrowser:latest
+      container_name: file_browser
+      restart: always
+      ports:
+        - "8081:80"
+      volumes:
+        - /testCaseResults/videos:/srv
+      environment:
+        - FB_NOAUTH=true
+      networks:
+        - grid
+networks:
+  grid:
+    external: true

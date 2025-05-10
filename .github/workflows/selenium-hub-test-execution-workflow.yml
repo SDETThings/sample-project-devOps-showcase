@@ -1,12 +1,10 @@
 name: Run Tests on Dockerized Selenium Grid - updated
-
 on:
   workflow_dispatch:
 
 jobs:
   selenium-grid-tests:
     runs-on: ubuntu-latest
-
 
     steps:
       # 📦 Step: Checkout the project source code
@@ -39,7 +37,7 @@ jobs:
 
       # 🚦 Step: Start Selenium Grid using Docker Compose (Hub + Chrome + Firefox)
       - name: Start Selenium Grid
-        run: docker-compose -f src/test/resources/Docker-resources/selenium-grid-hub-and-nodes.yaml up -d
+        run: docker-compose -f src/test/resources/Docker-resources/selenium-hub-and-browser-nodes.yaml up -d
 
       # 🏗️ Step: Build a lightweight test runner Docker image with Java only, Includes runner.sh, libs/, and test suite XMLs
       - name: Build Java-only Test Runner Image
