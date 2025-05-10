@@ -4,6 +4,7 @@ import com.vinsguru.pages.flightreservation.*;
 import com.vinsguru.tests.AbstractTest;
 import com.vinsguru.tests.flightreservation.model.FlightReservationTestData;
 import com.vinsguru.util.JsonUtil;
+import com.vinsguru.util.ScreenRecorders;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
@@ -20,7 +21,8 @@ public class FlightReservationTest extends AbstractTest {
     }
 
     @Test
-    public void userRegistrationTest(){
+    public void userRegistrationTest() throws Exception {
+        ScreenRecorders.startRecording("userRegistrationTest");
         RegistrationPage registrationPage = new RegistrationPage(driver);
         registrationPage.goTo("https://d1uh9e7cu07ukd.cloudfront.net/selenium-docker/reservation-app/index.html");
         Assert.assertTrue(registrationPage.isAt());
@@ -29,37 +31,46 @@ public class FlightReservationTest extends AbstractTest {
         registrationPage.enterUserCredentials(testData.email(), testData.password());
         registrationPage.enterAddress(testData.street(), testData.city(), testData.zip());
         registrationPage.register();
+        ScreenRecorders.stopRecording();
     }
 
     @Test(dependsOnMethods = "userRegistrationTest")
-    public void registrationConfirmationTest(){
+    public void registrationConfirmationTest() throws Exception {
+        ScreenRecorders.startRecording("registrationConfirmationTest");
         RegistrationConfirmationPage registrationConfirmationPage = new RegistrationConfirmationPage(driver);
         Assert.assertTrue(registrationConfirmationPage.isAt());
         Assert.assertEquals(registrationConfirmationPage.getFirstName(), testData.firstName());
         registrationConfirmationPage.goToFlightsSearch();
+        ScreenRecorders.stopRecording();
     }
 
     @Test(dependsOnMethods = "registrationConfirmationTest")
-    public void flightsSearchTest(){
+    public void flightsSearchTest() throws Exception {
+        ScreenRecorders.startRecording("flightsSearchTest");
         FlightsSearchPage flightsSearchPage = new FlightsSearchPage(driver);
         Assert.assertTrue(flightsSearchPage.isAt());
         flightsSearchPage.selectPassengers(testData.passengersCount());
         flightsSearchPage.searchFlights();
+        ScreenRecorders.stopRecording();
     }
 
     @Test(dependsOnMethods = "flightsSearchTest")
-    public void flightsSelectionTest(){
+    public void flightsSelectionTest() throws Exception {
+        ScreenRecorders.startRecording("flightsSelectionTest");
         FlightsSelectionPage flightsSelectionPage = new FlightsSelectionPage(driver);
         Assert.assertTrue(flightsSelectionPage.isAt());
         flightsSelectionPage.selectFlights();
         flightsSelectionPage.confirmFlights();
+        ScreenRecorders.stopRecording();
     }
 
     @Test(dependsOnMethods = "flightsSelectionTest")
-    public void flightReservationConfirmationTest(){
+    public void flightReservationConfirmationTest() throws Exception {
+        ScreenRecorders.startRecording("flightReservationConfirmationTest");
         FlightConfirmationPage flightConfirmationPage = new FlightConfirmationPage(driver);
         Assert.assertTrue(flightConfirmationPage.isAt());
         Assert.assertEquals(flightConfirmationPage.getPrice(), testData.expectedPrice());
+        ScreenRecorders.stopRecording();
     }
 
 }
