@@ -1,4 +1,4 @@
-name: Run Tests on Dockerized Selenium Grid - updated
+name: Run Tests on Dockerized Selenium hub - updated
 on:
   workflow_dispatch:
 
