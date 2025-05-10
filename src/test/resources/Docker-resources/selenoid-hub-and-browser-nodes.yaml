@@ -20,7 +20,7 @@ services:
     image: selenium/node-chrome:latest
     shm_size: 2g
     depends_on:
-      - hub
+      - selenoid
       #deploy:
       #replicas: 4 # By default, the number of replicas is 1.
     environment:
@@ -35,7 +35,7 @@ services:
     image: selenium/node-firefox:latest
     shm_size: 2g
     depends_on:
-      - hub
+      - selenoid
     environment:
       - SE_EVENT_BUS_HOST=hub
       - SE_EVENT_BUS_PUBLISH_PORT=4442
