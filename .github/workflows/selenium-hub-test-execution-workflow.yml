@@ -78,7 +78,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: ./testCaseResults
+          path: ./ScreenRecordings
 
       # 🧹 Step: Shut down Selenium Grid and clean up containers
       - name: Clean up Docker containers

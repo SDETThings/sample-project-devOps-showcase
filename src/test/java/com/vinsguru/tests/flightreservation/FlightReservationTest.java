@@ -31,10 +31,25 @@ public class FlightReservationTest extends AbstractTest {
         registrationPage.enterUserCredentials(testData.email(), testData.password());
         registrationPage.enterAddress(testData.street(), testData.city(), testData.zip());
         registrationPage.register();
+        RegistrationConfirmationPage registrationConfirmationPage = new RegistrationConfirmationPage(driver);
+        Assert.assertTrue(registrationConfirmationPage.isAt());
+        Assert.assertEquals(registrationConfirmationPage.getFirstName(), testData.firstName());
+        registrationConfirmationPage.goToFlightsSearch();
+        FlightsSearchPage flightsSearchPage = new FlightsSearchPage(driver);
+        Assert.assertTrue(flightsSearchPage.isAt());
+        flightsSearchPage.selectPassengers(testData.passengersCount());
+        flightsSearchPage.searchFlights();
+        FlightsSelectionPage flightsSelectionPage = new FlightsSelectionPage(driver);
+        Assert.assertTrue(flightsSelectionPage.isAt());
+        flightsSelectionPage.selectFlights();
+        flightsSelectionPage.confirmFlights();
+        FlightConfirmationPage flightConfirmationPage = new FlightConfirmationPage(driver);
+        Assert.assertTrue(flightConfirmationPage.isAt());
+        Assert.assertEquals(flightConfirmationPage.getPrice(), testData.expectedPrice());
         ScreenRecorders.stopRecording();
     }
 
-    @Test(dependsOnMethods = "userRegistrationTest")
+    //@Test(dependsOnMethods = "userRegistrationTest")
     public void registrationConfirmationTest() throws Exception {
         ScreenRecorders.startRecording("registrationConfirmationTest");
         RegistrationConfirmationPage registrationConfirmationPage = new RegistrationConfirmationPage(driver);
@@ -44,7 +59,7 @@ public class FlightReservationTest extends AbstractTest {
         ScreenRecorders.stopRecording();
     }
 
-    @Test(dependsOnMethods = "registrationConfirmationTest")
+    //@Test(dependsOnMethods = "registrationConfirmationTest")
     public void flightsSearchTest() throws Exception {
         ScreenRecorders.startRecording("flightsSearchTest");
         FlightsSearchPage flightsSearchPage = new FlightsSearchPage(driver);
@@ -54,7 +69,7 @@ public class FlightReservationTest extends AbstractTest {
         ScreenRecorders.stopRecording();
     }
 
-    @Test(dependsOnMethods = "flightsSearchTest")
+    //@Test(dependsOnMethods = "flightsSearchTest")
     public void flightsSelectionTest() throws Exception {
         ScreenRecorders.startRecording("flightsSelectionTest");
         FlightsSelectionPage flightsSelectionPage = new FlightsSelectionPage(driver);
@@ -64,7 +79,7 @@ public class FlightReservationTest extends AbstractTest {
         ScreenRecorders.stopRecording();
     }
 
-    @Test(dependsOnMethods = "flightsSelectionTest")
+    //@Test(dependsOnMethods = "flightsSelectionTest")
     public void flightReservationConfirmationTest() throws Exception {
         ScreenRecorders.startRecording("flightReservationConfirmationTest");
         FlightConfirmationPage flightConfirmationPage = new FlightConfirmationPage(driver);
