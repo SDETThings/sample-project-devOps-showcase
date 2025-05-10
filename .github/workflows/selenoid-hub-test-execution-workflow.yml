@@ -56,8 +56,6 @@ jobs:
       #          Mounts `testCaseResults` to collect results from inside the container
       - name: Run Tests in Container
         run: |
-          ls ./selenoidBrowserConfig/browsers.json
-          ls ./testCaseResults/videos
           docker ps
           mkdir -p testCaseResults
           docker run --rm \

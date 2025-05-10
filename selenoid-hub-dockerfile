@@ -8,7 +8,6 @@ WORKDIR /app
 # Copy all jars and scripts into the image
 COPY target/docker-resources .
 COPY selenoid-runner.sh .
-COPY ./selenoidBrowserConfig/selenoidBrowserConfig.json .
 
 # Make selenoid-runner.sh executable
 RUN chmod +x ./selenoid-runner.sh
