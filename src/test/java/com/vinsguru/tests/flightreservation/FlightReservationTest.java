@@ -22,8 +22,6 @@ public class FlightReservationTest extends AbstractTest {
 
     @Test
     public void userRegistrationTest() throws Exception {
-        ScreenRecordings.startRecording("userRegistrationTest");
-
         RegistrationPage registrationPage = new RegistrationPage(driver);
         registrationPage.goTo("https://d1uh9e7cu07ukd.cloudfront.net/selenium-docker/reservation-app/index.html");
         Assert.assertTrue(registrationPage.isAt());
@@ -52,6 +50,5 @@ public class FlightReservationTest extends AbstractTest {
         Assert.assertTrue(flightConfirmationPage.isAt());
         Assert.assertEquals(flightConfirmationPage.getPrice(), testData.expectedPrice());
 
-        ScreenRecordings.stopRecording();
     }
 }
