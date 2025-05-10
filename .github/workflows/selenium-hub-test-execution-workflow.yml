@@ -42,7 +42,9 @@ jobs:
       # 🏗️ Step: Build a lightweight test runner Docker image with Java only, Includes selenoid-runner.sh, libs/, and test suite XMLs
       - name: Build Java-only Test Runner Image
         run: |
-          docker build -f ./selenium-hub-dockerfile -t my-java-test-runner .
+          ls -l | grep selenium
+          mv selenium-hub-dockerfile Dockerfile
+          docker build -t my-java-test-runner .
 
       # 🧪 Step: Ensure Docker network (grid) exists
       - name: Ensure Docker network exists

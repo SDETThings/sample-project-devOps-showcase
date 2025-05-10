@@ -43,7 +43,7 @@ jobs:
       - name: Build Java-only Test Runner Image
         run: |
           ls -l | grep selenium
-          mv selenium-hub-dockerfile Dockerfile
+          mv selenoid-hub-dockerfile Dockerfile
           docker build -t my-java-test-runner .
 
       # 🧪 Step: Ensure Docker network (grid) exists
