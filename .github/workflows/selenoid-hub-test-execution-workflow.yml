@@ -35,8 +35,8 @@ jobs:
         run: |
           mvn clean package -DskipTests
 
-      # 🚦 Step: Start Selenium Grid using Docker Compose (Hub + Chrome + Firefox)
-      - name: Start Selenium Grid
+      # 🚦 Step: Start Selenoid hub using Docker Compose (selenoid + Chrome + Firefox)
+      - name: Start Selenoid hub
         run: docker-compose -f src/test/resources/Docker-resources/selenoid-hub-and-browser-nodes.yaml up -d
 
       # 🏗️ Step: Build a lightweight test runner Docker image with Java only, Includes selenoid-runner.sh, libs/, and test suite XMLs
@@ -56,6 +56,7 @@ jobs:
       #          Mounts `testCaseResults` to collect results from inside the container
       - name: Run Tests in Container
         run: |
+          docker ps
           mkdir -p testCaseResults
           docker run --rm \
             --name runner \
