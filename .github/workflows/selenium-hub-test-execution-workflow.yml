@@ -81,4 +81,4 @@ jobs:
 
       # 🧹 Step: Shut down Selenium Grid and clean up containers
       - name: Clean up Docker containers
-        run: docker-compose -f src/test/resources/Docker-resources/selenium-grid-hub-and-nodes.yaml down
+        run: docker-compose -f src/test/resources/Docker-resources/selenium-hub-and-browser-nodes.yaml down
