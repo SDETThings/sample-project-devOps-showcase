@@ -4,6 +4,7 @@ import com.vinsguru.pages.flightreservation.*;
 import com.vinsguru.tests.AbstractTest;
 import com.vinsguru.tests.flightreservation.model.FlightReservationTestData;
 import com.vinsguru.util.JsonUtil;
+import com.vinsguru.util.ScreenRecordings;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
