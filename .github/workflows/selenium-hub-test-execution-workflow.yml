@@ -36,13 +36,13 @@ jobs:
           mvn clean package -DskipTests
 
       # 🚦 Step: Start Selenium Grid using Docker Compose (Hub + Chrome + Firefox)
-      - name: Start Selenium Grid
+      - name: Start Selenium hub
         run: docker-compose -f src/test/resources/Docker-resources/selenium-hub-and-browser-nodes.yaml up -d
 
-      # 🏗️ Step: Build a lightweight test runner Docker image with Java only, Includes runner.sh, libs/, and test suite XMLs
+      # 🏗️ Step: Build a lightweight test runner Docker image with Java only, Includes selenoid-runner.sh, libs/, and test suite XMLs
       - name: Build Java-only Test Runner Image
         run: |
-          docker build -t my-java-test-runner .
+          docker build -f selenium-hub-dockerfile -t my-java-test-runner .
 
       # 🧪 Step: Ensure Docker network (grid) exists
       - name: Ensure Docker network exists
@@ -50,7 +50,7 @@ jobs:
           docker network inspect grid >/dev/null 2>&1 || docker network create grid
 
       # 🧪 Step: Run the test container (mapped to the Selenium Grid network)
-      #          Pass environment variables to runner.sh
+      #          Pass environment variables to selenoid-runner.sh
       #          Mounts `testCaseResults` to collect results from inside the container
       - name: Run Tests in Container
         run: |
@@ -80,4 +80,4 @@ jobs:
 
       # 🧹 Step: Shut down Selenium Grid and clean up containers
       - name: Clean up Docker containers
-        run: docker-compose -f src/test/resources/Docker-resources/selenium-grid-hub-and-nodes.yaml down
+        run: docker-compose -f src/test/resources/Docker-resources/selenium-hub-and-browser-nodes.yaml down

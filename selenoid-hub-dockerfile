@@ -7,10 +7,10 @@ WORKDIR /app
 
 # Copy all jars and scripts into the image
 COPY target/docker-resources .
-COPY ./runner.sh .
+COPY selenoid-runner.sh .
 
-# Make runner.sh executable
-RUN chmod +x ./runner.sh
+# Make selenoid-runner.sh executable
+RUN chmod +x ./selenoid-runner.sh
 
 # Default command (can be overridden)
-ENTRYPOINT ./runner.sh
+ENTRYPOINT ./selenoid-runner.sh
