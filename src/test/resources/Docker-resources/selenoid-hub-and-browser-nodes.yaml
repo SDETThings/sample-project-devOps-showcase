@@ -1,5 +1,4 @@
 services:
-
   selenoid:
     image: aerokube/selenoid:latest-release
     container_name: selenoid
@@ -16,6 +15,7 @@ services:
     ]
     networks:
       - grid
+
 networks:
   grid:
     external: true
