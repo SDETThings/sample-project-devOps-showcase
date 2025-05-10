@@ -38,9 +38,11 @@ public abstract class AbstractTest {
         {
             System.out.println("about to initialize remote webdriver");
             this.driver = getRemoteDriver(browser);
+            this.driver.manage().window().maximize();
         }else{
             System.out.println("about to initialize local webdriver");
             this.driver = getLocalDriver();
+            this.driver.manage().window().maximize();
         }
     }
     /* private WebDriver getRemoteDriver(String browser) throws MalformedURLException {
@@ -82,8 +84,8 @@ public abstract class AbstractTest {
     }*/
     private WebDriver getRemoteDriver(String browser) throws MalformedURLException {
         MutableCapabilities capabilities;
-        String gridHost = Config.get(Constants.GRID_HUB_HOST);  // e.g., "hub" or "selenoid"
-        String gridUrl = String.format(Config.get(Constants.GRID_URL_FORMAT), gridHost);  // e.g., http://%s:4444/wd/hub
+        String gridHost = Config.get(Constants.GRID_HUB_HOST);
+        String gridUrl = String.format(Config.get(Constants.GRID_URL_FORMAT), gridHost);
 
         // Decide browser type
         if (Constants.FIREFOX.equalsIgnoreCase(browser)) {
@@ -92,16 +94,6 @@ public abstract class AbstractTest {
         } else {
             System.out.println("Initializing Chrome browser");
             capabilities = new ChromeOptions();
-        }
-
-        // Add Selenoid-specific capabilities if targeting Selenoid
-        if ("selenoid".equalsIgnoreCase(gridHost)) {
-            capabilities.setCapability("enableVNC", true);
-            capabilities.setCapability("enableVideo", true);
-
-            // Name video per test or timestamp
-            String testName = "test-" + System.currentTimeMillis(); // or pass test name dynamically
-            capabilities.setCapability("videoName", testName + ".mp4");
         }
 
         System.out.println("Grid URL: " + gridUrl);
