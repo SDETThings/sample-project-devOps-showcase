@@ -1,6 +1,8 @@
 name: Run Tests on Dockerized Selenium hub - updated
 on:
   workflow_dispatch:
+  repository_dispatch:
+    types: [ qa-deployment ]
 
 jobs:
   selenium-grid-tests:
